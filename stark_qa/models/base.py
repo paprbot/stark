@@ -148,3 +148,5 @@ class ModelForSTaRKQA(nn.Module):
             Dict[str, float]: A dictionary containing the computed metrics.
         """
         return self.evaluator.evaluate_batch(pred_ids, pred, answer_ids, metrics)
+   
+   

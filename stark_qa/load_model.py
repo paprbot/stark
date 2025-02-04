@@ -39,6 +39,11 @@ def load_model(args, skb, **kwargs):
             max_k=args.multi_vss_topk,
             device=args.device
         )
+    if model_name == 'Paprv1':
+        return Papr(
+            skb,
+            query_emb_dir=args.query_emb_dir
+        )
     if model_name == 'LLMReranker':
         return LLMReranker(skb, 
                            emb_model=args.emb_model,

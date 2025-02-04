@@ -17,7 +17,7 @@ def parse_args():
 
     # Dataset and model selection
     parser.add_argument("--dataset", default="amazon", choices=['amazon', 'prime', 'mag'])
-    parser.add_argument("--model", default="VSS", choices=["BM25", "Colbertv2", "VSS", "MultiVSS", "LLMReranker"])
+    parser.add_argument("--model", default="VSS", choices=["BM25", "Colbertv2", "VSS", "MultiVSS", "LLMReranker", "Paprv1"])
     parser.add_argument("--split", default="test", choices=["train", "val", "test", "test-0.1", "human_generated_eval"])
 
     # Path settings
@@ -87,6 +87,8 @@ if __name__ == "__main__":
 
     skb = load_skb(args.dataset)
     qa_dataset = load_qa(args.dataset, human_generated_eval=args.split == 'human_generated_eval')
+    
+    dataset_test = qa_dataset.get_subset('test')
     model = load_model(args, skb)
 
     split_idx = qa_dataset.get_idx_split(test_ratio=args.test_ratio)
@@ -134,6 +136,10 @@ if __name__ == "__main__":
                 result["idx"], result["query_id"] = batch_indices[i], query_ids[i]
                 result["pred_rank"] = pred_ids[torch.argsort(pred[:,i], descending=True)[:args.save_topk]].tolist()
                 eval_csv = pd.concat([eval_csv, pd.DataFrame([result])], ignore_index=True)
+    elif args.model == 'Paprv1':
+        results = model.evaluate_batch_from_csv('/home/devmachine/stark/query_answers_q1000_Jan31.csv')
+        json.dump(results, open(final_eval_path, "w"), indent=4)
+     
     else:
         for idx in tqdm(indices):
             query, query_id, answer_ids, meta_info = qa_dataset[idx]

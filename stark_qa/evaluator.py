@@ -5,6 +5,7 @@ from torchmetrics.functional import (
     retrieval_precision, retrieval_average_precision, retrieval_normalized_dcg, 
     retrieval_r_precision
 )
+import pandas as pd
 
 class Evaluator:
     
@@ -125,3 +126,5 @@ class Evaluator:
                 eval_metrics[metric] = float(result)
             results.append(eval_metrics)
         return results
+
+   

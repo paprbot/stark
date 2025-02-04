@@ -1,0 +1,26 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+    
+        {
+            "name": "Python Debugger: Current File with Arguments",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "eval.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--dataset", "mag",
+                "--model", "Paprv1",
+                "--emb_dir", "emb/",
+                "--output_dir", "output/",
+                "--emb_model", "text-embedding-ada-002",
+                "--split", "test",
+                "--save_pred"
+            ]
+        }
+    ]
+}
